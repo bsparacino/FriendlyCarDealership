@@ -1,0 +1,9 @@
+id,first_name,last_name,dob,address,city,state,zip,position
+1,Jim,Friendly,1/1/1966,14 Smith Drive,Rochester,NY,14623,Manager
+2,Catherine,Friendly,2/3/1970,14 Smith Drive,Rochester,NY,14623,Sales
+3,Bob,Grand,11/13/1981,800 Main Street,Victor,NY,14905,Sales
+4,Kate,Row,4/20/1987,75 Straight Street,Rochester,NY,14623,Sales
+5,Brian,Stream,8/22/1990,19 Open Drive,Fairport,NY,14688,Sales
+6,David,Smith,12/25/1985,1 Small Street,Buffalo,NY,20931,Sales
+7,Nancy,Bond,3/2/1988,5 East Road,Rochester,NY,14623,Sales
+8,Nick,Owens,6/6/1970,10 West Road,Rochester,NY,14623,Sales

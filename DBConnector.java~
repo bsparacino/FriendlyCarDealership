@@ -1,0 +1,10 @@
+/**
+ * File: DBConnector.java
+ * David Wheeler
+ * 
+ * Communicates between the database 
+ * and the command line interface
+ */
+public class DBConnector {
+
+}
