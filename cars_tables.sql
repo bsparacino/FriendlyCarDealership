@@ -107,15 +107,15 @@ DROP TABLE IF EXISTS vehicle;
 CREATE TABLE IF NOT EXISTS vehicle (
   id SERIAL,
   vin varchar(17) NOT NULL,
-  invoice_price int NOT NULL,
-  sticker_price int NOT NULL,
+  invoice_price int,
+  sticker_price int,
   new_used varchar(4) NOT NULL,
   year int NOT NULL,
   make varchar(50) NOT NULL,
   model varchar(50) NOT NULL,
-  trim varchar(20) NOT NULL,
+  trim varchar(50),
   mileage int NOT NULL,
-  color varchar(20) NOT NULL,
+  color varchar(50),
   date_in_stock date NOT NULL,
   PRIMARY KEY (id)
 );

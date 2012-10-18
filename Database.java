@@ -2,41 +2,43 @@ import java.sql.*;
 import java.io.FileReader;
 import org.postgresql.copy.CopyManager;
 import org.postgresql.core.BaseConnection;
+import java.util.ArrayList;
  
 public class Database
 {
 
-	public static Connection connection = null;
- 
+	public Connection connection = null;
+
 	public static void main(String[] argv)
 	{
+		Database dbase = new Database();
+		//dbase.loadData("vehicle");
 
-		if(!connect())
+		//dbase.getCustomer(2);
+		//dbase.getVehicle(2);
+		//dbase.getEmployee(2);
+		//dbase.getOption(2);
+		
+		ArrayList<Vehicle> vehicles = dbase.getVehicles();
+		for( Vehicle v : vehicles )
 		{
-			System.out.println("Connection Failed");
-			System.exit(0);
+			System.out.println(v.id+" "+v.make+" "+v.model);
 		}
 
-		//loadData("customer");
-		//loadData("option");
-		//loadData("employee");
-		//loadData("vehicle");
-
-		//getCustomers();
-		//getVehicles();
-		//getEmployees();
-		//getOptions();
-
-		getCustomer(2);
-		getVehicle(2);
-		getEmployee(2);
-		getOption(2);
-
-		try { connection.close(); } catch (SQLException e) { e.printStackTrace(); }
-
+		dbase.close();
 	}
 
-	public static boolean connect()
+	public Database()
+	{
+		connect();
+	}
+
+	public void close()
+	{
+		try { connection.close(); } catch (SQLException e) { e.printStackTrace(); }
+	}
+
+	public boolean connect()
 	{
 
 		System.out.println("-------- PostgreSQL "
@@ -81,7 +83,7 @@ public class Database
 
 	}
 
-	public static void loadData(String tableName)
+	public void loadData(String tableName)
 	{
 		try
 		{
@@ -96,13 +98,16 @@ public class Database
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 
-	public static void getCustomers()
+	public ArrayList<Customer> getCustomers()
 	{
+
+		ArrayList<Customer> list = new ArrayList<Customer>();
+
 		try
 		{
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM customer");
-
+			
 			while (rs.next())
 			{
 				int id = rs.getInt("id");
@@ -113,16 +118,22 @@ public class Database
 				String city = rs.getString("city");
 				String state = rs.getString("state");
 				int zip = rs.getInt("zip");
-				System.out.println(id + ". " + first_name + " " + last_name + " - "+city);
-			}
-
+				
+				list.add(new Customer(id, first_name, last_name, dob, address, city, state, zip));
+			} 
+			
 			stmt.close();
 			
 	  	} catch (SQLException e) { e.printStackTrace(); }
+		
+		return list;
 	}
 
-	public static void getCustomer(int id_val)
+	public ArrayList<Customer> getCustomer(int id_val)
 	{
+
+		ArrayList<Customer> list = new ArrayList<Customer>();
+
 		try
 		{
 			Statement stmt = connection.createStatement();
@@ -138,16 +149,22 @@ public class Database
 				String city = rs.getString("city");
 				String state = rs.getString("state");
 				int zip = rs.getInt("zip");
-				System.out.println(id + ". " + first_name + " " + last_name + " - "+city);
+				
+				list.add(new Customer(id, first_name, last_name, dob, address, city, state, zip));
 			}
 
 			stmt.close();
 			
 	  	} catch (SQLException e) { e.printStackTrace(); }
+
+	  	return list;
 	}
 
-	public static void getEmployees()
+	public ArrayList<Employee> getEmployees()
 	{
+
+		ArrayList<Employee> list = new ArrayList<Employee>();
+
 		try
 		{
 			Statement stmt = connection.createStatement();
@@ -165,14 +182,19 @@ public class Database
 				int zip = rs.getInt("zip");
 				String position = rs.getString("position");
 
-				System.out.println(id + ". " + first_name + " " + last_name + " - "+position);
+				list.add(new Employee(id, first_name, last_name, dob, address, city, state, zip, position));
 			}
 			
 	  	} catch (SQLException e) { e.printStackTrace(); }
+
+	  	return list;
 	}
 
-	public static void getEmployee(int id_val)
+	public ArrayList<Employee> getEmployee(int id_val)
 	{
+
+		ArrayList<Employee> list = new ArrayList<Employee>();
+
 		try
 		{
 			Statement stmt = connection.createStatement();
@@ -190,14 +212,19 @@ public class Database
 				int zip = rs.getInt("zip");
 				String position = rs.getString("position");
 
-				System.out.println(id + ". " + first_name + " " + last_name + " - "+position);
+				list.add(new Employee(id, first_name, last_name, dob, address, city, state, zip, position));
 			}
 			
 	  	} catch (SQLException e) { e.printStackTrace(); }
+
+	  	return list;
 	}
  
-	public static void getVehicles()
+	public ArrayList<Vehicle> getVehicles()
 	{
+
+		ArrayList<Vehicle> list = new ArrayList<Vehicle>();
+
 		try
 		{
 			Statement stmt = connection.createStatement();
@@ -218,16 +245,21 @@ public class Database
 				String color = rs.getString("color");
 				String date_in_stock = rs.getString("date_in_stock");
 
-				System.out.println(id + ": " + make + " " + model);
+				list.add(new Vehicle(id, vin, invoice_price, sticker_price, new_used, year, make, model, trim, mileage, color, date_in_stock));
 			}
 
 			stmt.close();
 			
 	  	} catch (SQLException e) { e.printStackTrace(); }
+
+	  	return list;
 	}
 
-	public static void getVehicle(int id_val)
+	public ArrayList<Vehicle> getVehicle(int id_val)
 	{
+
+		ArrayList<Vehicle> list = new ArrayList<Vehicle>();
+
 		try
 		{
 			Statement stmt = connection.createStatement();
@@ -248,16 +280,21 @@ public class Database
 				String color = rs.getString("color");
 				String date_in_stock = rs.getString("date_in_stock");
 
-				System.out.println(id + ": " + make + " " + model);
+				list.add(new Vehicle(id, vin, invoice_price, sticker_price, new_used, year, make, model, trim, mileage, color, date_in_stock));
 			}
 
 			stmt.close();
 			
 	  	} catch (SQLException e) { e.printStackTrace(); }
+
+	  	return list;
 	}
 
-	public static void getOptions()
+	public ArrayList<Option> getOptions()
 	{
+
+		ArrayList<Option> list = new ArrayList<Option>();
+
 		try
 		{
 			Statement stmt = connection.createStatement();
@@ -269,16 +306,21 @@ public class Database
 				String name = rs.getString("name");
 				int price = rs.getInt("price");
 
-				System.out.println(id + ": " + name + " " + price);
+				list.add(new Option(id, name, price));
 			}
 
-			stmt.close();
+			stmt.close();			
 			
 	  	} catch (SQLException e) { e.printStackTrace(); }
+
+	  	return list;
 	}
 
-	public static void getOption(int id_val)
+	public ArrayList<Option> getOption(int id_val)
 	{
+
+		ArrayList<Option> list = new ArrayList<Option>();
+
 		try
 		{
 			Statement stmt = connection.createStatement();
@@ -290,15 +332,17 @@ public class Database
 				String name = rs.getString("name");
 				int price = rs.getInt("price");
 
-				System.out.println(id + ": " + name + " " + price);
+				list.add(new Option(id, name, price));
 			}
 
 			stmt.close();
 			
 	  	} catch (SQLException e) { e.printStackTrace(); }
+
+	  	return list;
 	}
 
-	public static void insertVehicle()
+	public void insertVehicle()
 	{
 		try
 		{			

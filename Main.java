@@ -1,5 +1,7 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class Main {
 		
@@ -10,6 +12,7 @@ public class Main {
 	{
 		System.out.println("Friendly Car Dealership");
 		
+		Database db = new Database();
 		boolean exit = false;
 		
 		while( !exit )
@@ -23,21 +26,36 @@ public class Main {
 			
 				if ( option == 1)
 				{
+					/**ArrayList<Sales> sales = db.getSales();
+					Main.printSales(sales);**/
 				} else if ( option == 2)
 				{
+					ArrayList<Customer> customers = db.getCustomers();
+					Main.printCustomers(customers);
 				} else if ( option == 3 )
 				{
+					ArrayList<Employee> employees = db.getEmployees();
+					Main.printEmployees(employees);
 				} else if ( option == 4 )
 				{
+					ArrayList<Vehicle> vehicles = db.getVehicles();
+					Main.printVehicles(vehicles);
 				} else if ( option == 5 )
 				{
 					String[] customer = Main.enterCustomer();
+					/**db.insertCustomer(customer[0], customer[1], customer[2],
+						customer[3], customer[4], customer[5], customer[6],
+						Integer.parseInt(customer[7]));**/
 				} else if ( option == 6 )
 				{	
 					String[] employee = Main.enterEmployee();
+					/**db.insertEmployee(customer[0], customer[1], customer[2],
+						customer[3], customer[4], customer[5], customer[6],
+						customer[7], Integer.parseInt(customer[8]));**/
 				} else if ( option == 7 )
 				{
 					exit = true;
+					db.close();
 				} else
 				{
 					System.out.println("Please enter a number listed above");
@@ -110,4 +128,41 @@ public class Main {
 		
 		return customer;
 	}
+	
+	private static void printCustomers(ArrayList<Customer> customers) {
+		System.out.println("id\tFirst Name\tLast Name\tDOB\tAddress\tCity\tState\tZip");
+		
+		for( Customer c : customers )
+		{
+			System.out.println(c);
+		}
+	}
+	
+	private static void printSales(ArrayList<Sale> sales) {
+		System.out.println("id\tCustomer id\tEmployee id\tVehicle id\tTax\tFee\tPrice\tDate");
+		
+		for( Sale s : sales )
+		{
+			System.out.println(s);
+		}
+	}
+	
+	private static void printEmployees(ArrayList<Employee> employees) {
+		System.out.println("id\tFirst Name\tLast Name\tDOB\tPosition\tAddress\tCity\tState\tZip");
+		
+		for( Employee e : employees )
+		{
+			System.out.println(e);
+		}
+	}
+	
+	private static void printVehicles(ArrayList<Vehicle> vehicles) {
+		System.out.println("id\tvin\tInvoice Price\tSticker Price\tNew/Used\tYear\tMake\tModel\tTrim\tMileage\tColor\tDate in Stock");
+		
+		for( Vehicle v : vehicles )
+		{
+			System.out.println(v);
+		}
+	}
+	
 }
