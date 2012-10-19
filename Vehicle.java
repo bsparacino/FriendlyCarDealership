@@ -32,6 +32,6 @@ public class Vehicle
 	
 	public String toString()
 	{
-		return id +"\t"+ vin +"\t"+ invoice_price +"\t"+ sticker_price +"\t"+ new_used +"\t"+ year +"\t"+ make +"\t"+ model +"\t"+ trim +"\t"+ mileage +"\t"+ color +"\t"+ date_in_stock;
+		return id +"\t"+ vin +"\t"+ invoice_price +"\t"+ sticker_price +"\t"+ new_used +"\t"+ year +"\t"+ mileage +"\t"+ color +"\t\t"+ date_in_stock +"\t"+ make +"\t"+ model +"\t"+ trim;
 	}
 }

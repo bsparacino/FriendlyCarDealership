@@ -12,18 +12,23 @@ public class Database
 	public static void main(String[] argv)
 	{
 		Database dbase = new Database();
-		//dbase.loadData("vehicle");
+		dbase.loadData("vehicle");
+		dbase.loadData("customer");
+		dbase.loadData("employee");
+		dbase.loadData("option");
 
 		//dbase.getCustomer(2);
 		//dbase.getVehicle(2);
 		//dbase.getEmployee(2);
 		//dbase.getOption(2);
 		
-		ArrayList<Vehicle> vehicles = dbase.getVehicles();
+		/*
+		ArrayList<Vehicle> vehicles = dbase.getVehicles("");
 		for( Vehicle v : vehicles )
 		{
 			System.out.println(v.id+" "+v.make+" "+v.model);
 		}
+		*/
 
 		dbase.close();
 	}
@@ -41,8 +46,7 @@ public class Database
 	public boolean connect()
 	{
 
-		System.out.println("-------- PostgreSQL "
-				+ "JDBC Connection Testing ------------");
+		//System.out.println("-------- PostgreSQL " + "JDBC Connection Testing ------------");
  
 		try {
  
@@ -113,13 +117,14 @@ public class Database
 				int id = rs.getInt("id");
 				String first_name = rs.getString("first_name");
 				String last_name = rs.getString("last_name");
+				String gender = rs.getString("gender");
 				String dob = rs.getString("dob");
 				String address = rs.getString("address");
 				String city = rs.getString("city");
 				String state = rs.getString("state");
 				int zip = rs.getInt("zip");
 				
-				list.add(new Customer(id, first_name, last_name, dob, address, city, state, zip));
+				list.add(new Customer(id, first_name, last_name, gender, dob, address, city, state, zip));
 			} 
 			
 			stmt.close();
@@ -144,13 +149,14 @@ public class Database
 				int id = rs.getInt("id");
 				String first_name = rs.getString("first_name");
 				String last_name = rs.getString("last_name");
+				String gender = rs.getString("gender");
 				String dob = rs.getString("dob");
 				String address = rs.getString("address");
 				String city = rs.getString("city");
 				String state = rs.getString("state");
 				int zip = rs.getInt("zip");
 				
-				list.add(new Customer(id, first_name, last_name, dob, address, city, state, zip));
+				list.add(new Customer(id, first_name, last_name, gender, dob, address, city, state, zip));
 			}
 
 			stmt.close();
@@ -175,6 +181,7 @@ public class Database
 				int id = rs.getInt("id");
 				String first_name = rs.getString("first_name");
 				String last_name = rs.getString("last_name");
+				String gender = rs.getString("gender");
 				String dob = rs.getString("dob");
 				String address = rs.getString("address");
 				String city = rs.getString("city");
@@ -182,7 +189,7 @@ public class Database
 				int zip = rs.getInt("zip");
 				String position = rs.getString("position");
 
-				list.add(new Employee(id, first_name, last_name, dob, address, city, state, zip, position));
+				list.add(new Employee(id, first_name, last_name, gender, dob, address, city, state, zip, position));
 			}
 			
 	  	} catch (SQLException e) { e.printStackTrace(); }
@@ -205,6 +212,7 @@ public class Database
 				int id = rs.getInt("id");
 				String first_name = rs.getString("first_name");
 				String last_name = rs.getString("last_name");
+				String gender = rs.getString("gender");
 				String dob = rs.getString("dob");
 				String address = rs.getString("address");
 				String city = rs.getString("city");
@@ -212,7 +220,7 @@ public class Database
 				int zip = rs.getInt("zip");
 				String position = rs.getString("position");
 
-				list.add(new Employee(id, first_name, last_name, dob, address, city, state, zip, position));
+				list.add(new Employee(id, first_name, last_name, gender, dob, address, city, state, zip, position));
 			}
 			
 	  	} catch (SQLException e) { e.printStackTrace(); }
@@ -220,15 +228,17 @@ public class Database
 	  	return list;
 	}
  
-	public ArrayList<Vehicle> getVehicles()
+	public ArrayList<Vehicle> getVehicles(String query)
 	{
+
+		if(query.equals("")) query = "SELECT * FROM vehicle";
 
 		ArrayList<Vehicle> list = new ArrayList<Vehicle>();
 
 		try
 		{
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM vehicle");
+			ResultSet rs = stmt.executeQuery(query);
 
 			while (rs.next())
 			{

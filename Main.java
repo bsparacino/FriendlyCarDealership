@@ -7,47 +7,88 @@ public class Main {
 		
 	private static String OPTIONS = "1. View Sales\n2. View Customers\n3. View Employees\n4. View Vehicles" + 
 			"\n5. Add Customer\n6. Add Employee\n7. Exit";
+
+	private static String OPTIONS_VEHICLES = "1. View All\n2. View New\n3. View Used\n4. View >$20,000" + 
+			"\n5. Main Menu";
 			
 	public static void main(String[] args)
-	{
-		System.out.println("Friendly Car Dealership");
-		
+	{	
 		Database db = new Database();
 		boolean exit = false;
 		
 		while( !exit )
 		{
+			//clear();
+			System.out.println("\n-------- Friendly Car Dealership ------------\n");
 			System.out.println("Enter a numeric option:");
 			System.out.println(OPTIONS);
 			
 			try {
 				Scanner scan = new Scanner(System.in);
 				int option = scan.nextInt();
-			
+
+				clear();
+
 				if ( option == 1)
 				{
+					System.out.println("-------- Sales ------------\n");
 					/**ArrayList<Sales> sales = db.getSales();
 					Main.printSales(sales);**/
 				} else if ( option == 2)
 				{
+					System.out.println("-------- Customers ------------\n");
 					ArrayList<Customer> customers = db.getCustomers();
 					Main.printCustomers(customers);
 				} else if ( option == 3 )
 				{
+					System.out.println("-------- Employees ------------\n");
 					ArrayList<Employee> employees = db.getEmployees();
 					Main.printEmployees(employees);
 				} else if ( option == 4 )
-				{
-					ArrayList<Vehicle> vehicles = db.getVehicles();
-					Main.printVehicles(vehicles);
+				{					
+
+					System.out.println("-------- Vehicles ------------\n");
+					System.out.println(OPTIONS_VEHICLES);
+
+					scan = new Scanner(System.in);
+					option = scan.nextInt();
+					
+					if(option == 1)
+					{
+						ArrayList<Vehicle> vehicles = db.getVehicles("");
+						Main.printVehicles(vehicles);
+					}
+					else if(option == 2)
+					{
+						ArrayList<Vehicle> vehicles = db.getVehicles("SELECT * FROM vehicle WHERE new_used='new'");
+						Main.printVehicles(vehicles);
+					}
+					else if(option == 3)
+					{
+						ArrayList<Vehicle> vehicles = db.getVehicles("SELECT * FROM vehicle WHERE new_used='used'");
+						Main.printVehicles(vehicles);
+					}
+					else if(option == 4)
+					{
+						ArrayList<Vehicle> vehicles = db.getVehicles("SELECT * FROM vehicle WHERE sticker_price>=20000");
+						Main.printVehicles(vehicles);
+					}
+					else if(option == 5)
+					{
+						clear();
+					}
+
+
 				} else if ( option == 5 )
 				{
+					System.out.println("-------- New Customer ------------\n");
 					String[] customer = Main.enterCustomer();
 					/**db.insertCustomer(customer[0], customer[1], customer[2],
 						customer[3], customer[4], customer[5], customer[6],
 						Integer.parseInt(customer[7]));**/
 				} else if ( option == 6 )
 				{	
+					System.out.println("-------- New Employee ------------\n");
 					String[] employee = Main.enterEmployee();
 					/**db.insertEmployee(customer[0], customer[1], customer[2],
 						customer[3], customer[4], customer[5], customer[6],
@@ -163,6 +204,11 @@ public class Main {
 		{
 			System.out.println(v);
 		}
+	}
+
+	private static void clear()
+	{
+		System.out.print("\033[2J\033[1;1H");
 	}
 	
 }
