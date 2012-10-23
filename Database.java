@@ -102,6 +102,15 @@ public class Database
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 
+	public void reloadAllData()
+	{
+		this.loadData("vehicle");
+		this.loadData("customer");
+		this.loadData("employee");
+		this.loadData("option");
+		this.loadData("sales");
+	}
+
 	public ArrayList<Customer> getCustomers()
 	{
 
@@ -350,7 +359,7 @@ public class Database
 	  	} catch (SQLException e) { e.printStackTrace(); }
 
 	  	return list;
-	}
+	}	
 
 	public void insertVehicle()
 	{
@@ -361,5 +370,79 @@ public class Database
 		    PreparedStatement pstmt = connection.prepareStatement(query);
 	    } catch (SQLException e) { e.printStackTrace(); }
 	}
+
+	public ArrayList<Sale> getReportVehicle()
+	{
+
+		// list of vehicles that sold only
+
+		ArrayList<Sale> list = new ArrayList<Sale>();
+
+		try
+		{
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM sales");
+
+			while (rs.next())
+			{
+				int id = rs.getInt("id");
+				int customer_id = rs.getInt("customer_id");
+				int employee_id = rs.getInt("employee_id");
+				int vehicle_id = rs.getInt("vehicle_id");
+				int tax = rs.getInt("tax");
+				int fee = rs.getInt("fee");
+				int price = rs.getInt("price");
+				String date = rs.getString("date");
+
+				//list.add(new Sale(id, name, price));
+			}
+
+			stmt.close();
+			
+	  	} catch (SQLException e) { e.printStackTrace(); }
+
+	  	return list;
+	}	
+
+	public String getReportSalesperson()
+	{
+
+		return "";
+	}
+
+	public ArrayList<Sale> getReportSales()
+	{
+
+		ArrayList<Sale> list = new ArrayList<Sale>();
+
+		try
+		{
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT sales.id,sales.tax,sales.fee,sales.price,sales.date,vehicle.vin,customer.first_name AS cust_first_name,customer.last_name AS cust_last_name,employee.first_name AS emp_first_name,employee.last_name AS emp_last_name FROM sales,vehicle,customer,employee WHERE sales.vehicle_id=vehicle.id AND sales.customer_id=customer.id AND sales.employee_id=employee.id");
+
+			while (rs.next())
+			{
+				int id = rs.getInt("id");
+				int tax = rs.getInt("tax");
+				int fee = rs.getInt("fee");
+				int price = rs.getInt("price");
+				String date = rs.getString("date");
+				String vin = rs.getString("vin");
+				String cust_first_name = rs.getString("cust_first_name");
+				String cust_last_name = rs.getString("cust_last_name");
+				String emp_first_name = rs.getString("emp_first_name");
+				String emp_last_name = rs.getString("emp_last_name");
+
+				//list.add(new Sale(id, customer_id, employee_id, vehicle_id, tax, fee, price, date));
+				list.add(new Sale(id, tax, fee, price, date, vin, cust_first_name, cust_last_name, emp_first_name, emp_last_name));
+
+			}
+
+			stmt.close();
+			
+	  	} catch (SQLException e) { e.printStackTrace(); }
+
+	  	return list;
+	}	
 
 }

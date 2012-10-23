@@ -6,10 +6,13 @@ import java.util.ArrayList;
 public class Main {
 		
 	private static String OPTIONS = "1. View Sales\n2. View Customers\n3. View Employees\n4. View Vehicles" + 
-			"\n5. Add Customer\n6. Add Employee\n7. Exit";
+			"\n5. Add Customer\n6. Add Employee\n7. View Reports\n8. Reload All Data\n9. Exit";
 
 	private static String OPTIONS_VEHICLES = "1. View All\n2. View New\n3. View Used\n4. View >$20,000" + 
 			"\n5. Main Menu";
+
+	private static String OPTIONS_REPORTS = "1. Vehicle Report\n2. Salesperson Report\n3. Sales Report" + 
+			"\n4. Main Menu";
 			
 	public static void main(String[] args)
 	{	
@@ -45,7 +48,7 @@ public class Main {
 					ArrayList<Employee> employees = db.getEmployees();
 					Main.printEmployees(employees);
 				} else if ( option == 4 )
-				{					
+				{
 
 					System.out.println("-------- Vehicles ------------\n");
 					System.out.println(OPTIONS_VEHICLES);
@@ -94,6 +97,34 @@ public class Main {
 						customer[3], customer[4], customer[5], customer[6],
 						customer[7], Integer.parseInt(customer[8]));**/
 				} else if ( option == 7 )
+				{	
+
+					System.out.println("-------- View Reports ------------\n");
+					System.out.println(OPTIONS_REPORTS);
+
+					scan = new Scanner(System.in);
+					option = scan.nextInt();
+					
+					if(option == 1) // vehicle report
+					{
+						//String report = db.getReportVehicle();
+						//System.out.println(report);
+					}
+					else if(option == 2) // salesperson report
+					{
+						//String report = db.getReportSalesperson();
+						//System.out.println(report);
+					}
+					else if(option == 3) // sales report
+					{
+						ArrayList<Sale> sales = db.getReportSales();
+						Main.printSales(sales);
+					}
+
+				} else if ( option == 8 )
+				{
+					db.reloadAllData();
+				} else if ( option == 9 )
 				{
 					exit = true;
 					db.close();
@@ -171,7 +202,7 @@ public class Main {
 	}
 	
 	private static void printCustomers(ArrayList<Customer> customers) {
-		System.out.println("id\tFirst Name\tLast Name\tDOB\tAddress\tCity\tState\tZip");
+		System.out.println("id\tFirst Name\tLast Name\tSex\tDOB\tAddress\tCity\tState\tZip");
 		
 		for( Customer c : customers )
 		{
@@ -180,7 +211,7 @@ public class Main {
 	}
 	
 	private static void printSales(ArrayList<Sale> sales) {
-		System.out.println("id\tCustomer id\tEmployee id\tVehicle id\tTax\tFee\tPrice\tDate");
+		System.out.println("id\tTax\tFee\tPrice\tDate\t\tVIN\t\t\tCustomer\t\tSalesperson");
 		
 		for( Sale s : sales )
 		{

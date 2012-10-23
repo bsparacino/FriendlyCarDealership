@@ -9,6 +9,12 @@ public class Sale
 	public int price;
 	public String date;
 
+	public String vin;
+	public String cust_first_name;
+	public String cust_last_name; 
+	public String emp_first_name;
+	public String emp_last_name; 
+
 	public Sale(int id, int customer_id, int employee_id, int vehicle_id, int tax, int fee, int price, String date)
 	{
 		this.id = id;
@@ -20,9 +26,25 @@ public class Sale
 		this.price = price;
 		this.date = date;
 	}
+
+	public Sale(int id, int tax, int fee, int price, String date, String vin, String cust_first_name, String cust_last_name, String emp_first_name, String emp_last_name)
+	{
+		this.id = id;
+		this.tax = tax;
+		this.fee = fee;
+		this.price = price;
+		this.date = date;
+
+		this.vin = vin;
+		this.cust_first_name = cust_first_name;
+		this.cust_last_name = cust_last_name;
+		this.emp_first_name = emp_first_name;
+		this.emp_last_name = emp_last_name;
+	}
 	
 	public String toString()
 	{
-		return id +"\t"+ customer_id +"\t"+ employee_id +"\t"+ vehicle_id +"\t"+ tax +"\t"+ fee +"\t"+ price +"\t"+ date;
+		//return id +"\t"+ customer_id +"\t\t"+ employee_id +"\t\t"+ vehicle_id +"\t\t"+ tax +"\t"+ fee +"\t"+ price +"\t"+ date;
+		return id +"\t"+ tax +"\t"+ fee +"\t"+ price +"\t"+ date+"\t"+ vin+"\t"+ cust_first_name+" "+cust_last_name+"\t\t"+ emp_first_name+" "+emp_last_name;
 	}
 }
