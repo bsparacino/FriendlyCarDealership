@@ -1,0 +1,15 @@
+ id | first_name  | last_name | gender |    dob     |      address      |   city    | state |  zip  
+----+-------------+-----------+--------+------------+-------------------+-----------+-------+-------
+  1 | William     | Hartnell  | M      | 1980-04-18 | 1 Hope Lane       | Rochester | NY    | 14623
+  2 | Patrick     | Troughton | M      | 1972-01-09 | 99 Easy Street    | Webster   | NY    | 14580
+  3 | Jon         | Pertwee   | M      | 1990-07-12 | 5 Main Street     | Oakland   | NY    | 14963
+  4 | Tom         | Baker     | M      | 1991-11-03 | 39 Fox Run        | Syracuse  | NY    | 13201
+  5 | Peter       | Davison   | M      | 1986-07-21 | 228 Loden Lane    | Belgrade  | NY    | 11320
+  6 | Colin       | Baker     | M      | 1981-02-19 | 790 James Road    | Buffalo   | NY    | 20931
+  7 | Sylvester   | McCoy     | M      | 1960-01-10 | 34 Culliver Drive | Rochester | NY    | 14623
+  8 | Paul        | McGann    | M      | 1971-09-27 | 15 Rome Avenue    | Rochester | NY    | 14623
+  9 | Christopher | Eccleston | M      | 1990-01-02 | 5 Main Street     | Rochester | NY    | 14623
+ 10 | David       | Tennant   | M      | 1980-08-08 | 12 Ridge Road     | Rochester | NY    | 14623
+ 11 | Matt        | Smith     | M      | 1970-07-07 | 99 Jefferson Road | Rochester | NY    | 14623
+(11 rows)
+

@@ -19,14 +19,15 @@ public class Employee
 		this.gender = gender;
 		this.dob = dob;
 		this.address = address;
-		this.city = state;
+		this.city = city;
+		this.state = state;
 		this.zip = zip;
 		this.position = position;
 	}
 	
 	public String toString()
 	{
-		return id +"\t"+ first_name +"\t\t"+ last_name +"\t\t"+ dob +"\t"+ position +"\t"+ address +"\t"+ city +"\t"+ state +"\t"+ zip;
+		return id +"\t"+ first_name +"\t\t"+ last_name +"\t"+ gender +"\t\t"+ dob +"\t"+ position +"\t"+ address +"\t"+ city +"\t"+ state +"\t"+ zip;
 		
 	}
 }

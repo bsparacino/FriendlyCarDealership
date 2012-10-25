@@ -97,7 +97,7 @@ public class Database
 
 			CopyManager copyManager = new CopyManager((BaseConnection) connection);
 			FileReader fileReader = new FileReader("//home/group/s485/p485-01e/cars/"+tableName+".csv");
-			copyManager.copyIn("COPY "+tableName+" FROM STDIN DELIMITERS ',' CSV HEADER", fileReader );
+			copyManager.copyIn("COPY "+tableName+" FROM STDIN DELIMITERS ',' CSV HEADER", fileReader );	
 
 		} catch (Exception e) { e.printStackTrace(); }
 	}
@@ -117,6 +117,17 @@ public class Database
 		this.loadData("employee");
 		this.loadData("option");
 		this.loadData("sales");
+
+		try
+		{
+			Statement stmt = connection.createStatement();
+			stmt.execute("ALTER SEQUENCE vehicle_id_seq RESTART 1000;");
+			stmt.execute("ALTER SEQUENCE customer_id_seq RESTART 1000;");
+			stmt.execute("ALTER SEQUENCE employee_id_seq RESTART 1000;");
+			stmt.execute("ALTER SEQUENCE sales_id_seq RESTART 1000;");
+			stmt.close();
+
+		} catch (Exception e) { e.printStackTrace(); }
 	}
 
 	public ArrayList<Customer> getCustomers()
@@ -452,5 +463,72 @@ public class Database
 
 	  	return list;
 	}	
+
+    public void insertCustomer(String first_name, String last_name, String gender,
+                               String dob, String address, 
+                               String city, String state,
+                               int zip){
+	 String [] date = dob.split("-");
+	 
+        try {
+	     java.sql.Date sqlDate = new java.sql.Date(Integer.parseInt(date[0]),
+				Integer.parseInt(date[1]), Integer.parseInt(date[2]));
+            String query = "INSERT INTO customer (first_name,last_name, gender, dob, address," + 
+                                          "city, state, zip) VALUES (?,?,?,?,?,?,?,?)";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+
+            pstmt.setString(1, first_name);
+            pstmt.setString(2, last_name);
+	     pstmt.setString(3, gender);
+            pstmt.setDate(4, sqlDate);
+            pstmt.setString(5, address);
+            pstmt.setString(6, city);
+            pstmt.setString(7, state);
+            pstmt.setInt(8, zip);
+
+            pstmt.executeUpdate();
+			
+			pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+		}
+			
+    }	
+
+    public void insertEmployee(String first_name, String last_name, String gender,
+                               String dob, String address, 
+                               String city, String state,
+                               int zip, String position){
+	 String [] date = dob.split("-");
+	 
+        try {
+	     java.sql.Date sqlDate = new java.sql.Date(Integer.parseInt(date[0]),
+				Integer.parseInt(date[1]), Integer.parseInt(date[2]));
+
+            String query = "INSERT INTO employee (first_name,last_name, gender, dob, address," + 
+                                          "city, state, zip, position) VALUES (?,?,?,?,?,?,?,?,?)";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+
+            pstmt.setString(1, first_name);
+            pstmt.setString(2, last_name);
+	     pstmt.setString(3, gender);
+            pstmt.setDate(4, sqlDate);
+            pstmt.setString(5, address);
+            pstmt.setString(6, city);
+            pstmt.setString(7, state);
+            pstmt.setInt(8, zip);
+	     pstmt.setString(9, position);
+
+            pstmt.executeUpdate();
+			
+			pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+		}
+			
+    }	
+
 
 }

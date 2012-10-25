@@ -1,0 +1,434 @@
+This is a simple select of all data in the customer table
+
+SELECT * FROM customer;
+
+ id | first_name  | last_name | gender |    dob     |      address      |   city    | state |  zip
+----+-------------+-----------+--------+------------+-------------------+-----------+-------+-------
+  1 | William     | Hartnell  | M      | 1980-04-18 | 1 Hope Lane       | Rochester | NY    | 14623
+  2 | Patrick     | Troughton | M      | 1972-01-09 | 99 Easy Street    | Webster   | NY    | 14580
+  3 | Jon         | Pertwee   | M      | 1990-07-12 | 5 Main Street     | Oakland   | NY    | 14963
+  4 | Tom         | Baker     | M      | 1991-11-03 | 39 Fox Run        | Syracuse  | NY    | 13201
+  5 | Peter       | Davison   | M      | 1986-07-21 | 228 Loden Lane    | Belgrade  | NY    | 11320
+  6 | Colin       | Baker     | M      | 1981-02-19 | 790 James Road    | Buffalo   | NY    | 20931
+  7 | Sylvester   | McCoy     | M      | 1960-01-10 | 34 Culliver Drive | Rochester | NY    | 14623
+  8 | Paul        | McGann    | M      | 1971-09-27 | 15 Rome Avenue    | Rochester | NY    | 14623
+  9 | Christopher | Eccleston | M      | 1990-01-02 | 5 Main Street     | Rochester | NY    | 14623
+ 10 | David       | Tennant   | M      | 1980-08-08 | 12 Ridge Road     | Rochester | NY    | 14623
+ 11 | Matt        | Smith     | M      | 1970-07-07 | 99 Jefferson Road | Rochester | NY    | 14623
+(11 rows)
+
+------------------------------------------------------------------------------------------------------
+
+This is a join on multiple tables (sales,vehicle,customer,employee) and it retrives information about a car sale
+
+SELECT sales.id,sales.tax,sales.fee,sales.price,sales.date,vehicle.vin,customer.first_name AS cust_first_name,customer.last_name AS cust_last_name,employee.first_name AS emp_first_name,employee.last_name AS emp_last_name FROM sales,vehicle,customer,employee WHERE sales.vehicle_id=vehicle.id AND sales.customer_id=customer.id AND sales.employee_id=employee.id;
+
+ id | tax  | fee | price |    date    |        vin        | cust_first_name | cust_last_name | emp_first_name | emp_last_name
+----+------+-----+-------+------------+-------------------+-----------------+----------------+----------------+---------------
+  1 | 1000 |   0 | 20000 | 2012-10-01 | 19XFB2F90CE364694 | Patrick         | Troughton      | Nancy          | Bond
+  2 |  800 | 200 | 15000 | 2012-10-05 | 2HKRM4H72DH601911 | Peter           | Davison        | David          | Smith
+  3 |  700 | 600 | 13000 | 2012-10-05 | 1HGCR2F58DA005756 | Colin           | Baker          | Kate           | Row
+  4 | 1200 | 100 | 25000 | 2012-10-07 | 5FNRL5H69DB007069 | Sylvester       | McCoy          | Jim            | Friendly
+  5 |  600 | 300 | 31000 | 2012-10-09 | 1GCSKSE33AZ161196 | Matt            | Smith          | Nick           | Owens
+  6 |  500 | 350 | 24000 | 2012-10-09 | 5GZCZ63486S818771 | Christopher     | Eccleston      | Nancy          | Bond
+(6 rows)
+
+------------------------------------------------------------------------------------------------------
+
+This is trying to delete a vehicle which was already sold.
+There is a foreign key restraint on this vehicle so it cannot be deleted.
+
+DELETE FROM vehicle WHERE id=13;
+
+ERROR:  update or delete on table "vehicle" violates foreign key constraint "sales_vehicle_id_fkey" on table "sales"
+DETAIL:  Key (id)=(13) is still referenced from table "sales".
+
+------------------------------------------------------------------------------------------------------
+
+This deleted vehicle id 5, since this is not in the sales table, it is able to be deleted.
+
+DELETE FROM vehicle WHERE id=5;
+
+DELETE 1
+
+
+BEFORE:
+
+ id  |        vin        | invoice_price | sticker_price | new_used | year |    make    |      model       |              trim               | mileage |              color               | date_in_stock
+-----+-------------------+---------------+---------------+----------+------+------------+------------------+---------------------------------+---------+----------------------------------+---------------
+   1 | NKDJSOQLDJU334967 |          9000 |         13000 | used     | 2008 | Subaru     | Outback          | 2.5i                            |   68000 | Green                            | 2010-05-13
+   2 | DNFHSKDQODS184375 |          8000 |         12000 | used     | 2007 | Ford       | f150             | Pickup 2WD                      |   10500 | Silver                           | 2010-02-05
+   3 | WAUHGAFCXCN138140 |         40000 |         45000 | new      | 2013 | Audi       | A6               | Quattro                         |       0 | Black                            | 2012-08-21
+   4 | LAKKWPQONDD664856 |         18000 |         20000 | used     | 2011 | Dodge      | Caravan          | 2WD                             |   20000 | Red                              | 2011-03-11
+   5 | HKWPQOSKDYE112908 |         39000 |         43000 | new      | 2013 | BMW        | 325CI            | Convertible                     |       0 | White                            | 2012-09-13
+   6 | NDJEUWOQKAL109876 |          2000 |          4000 | used     | 2007 | Chevrolet  | Malibu           | Eco 4DR Sedan                   |   98000 | Blue                             | 2008-09-17
+   7 | TYYLOQKWYDH679348 |          9000 |         13000 | new      | 2011 | Kia        | Optima           | MS                              |       0 | White                            | 2010-12-03
+   8 | NJKUJDYEHAL134578 |         15000 |         18000 | new      | 2012 | Nissan     | Altima           | 2WD                             |       0 | Grey                             | 2011-11-12
+   9 | 2HGFB2F86CH530973 |         19775 |         22775 | new      | 2012 | Honda      | Civic Sdn        | EX                              |       1 | Polished Metal Metallic          | 2011-10-25
+
+AFTER:
+
+ id  |        vin        | invoice_price | sticker_price | new_used | year |    make    |      model       |              trim               | mileage |              color               | date_in_stock
+-----+-------------------+---------------+---------------+----------+------+------------+------------------+---------------------------------+---------+----------------------------------+---------------
+   1 | NKDJSOQLDJU334967 |          9000 |         13000 | used     | 2008 | Subaru     | Outback          | 2.5i                            |   68000 | Green                            | 2010-05-13
+   2 | DNFHSKDQODS184375 |          8000 |         12000 | used     | 2007 | Ford       | f150             | Pickup 2WD                      |   10500 | Silver                           | 2010-02-05
+   3 | WAUHGAFCXCN138140 |         40000 |         45000 | new      | 2013 | Audi       | A6               | Quattro                         |       0 | Black                            | 2012-08-21
+   4 | LAKKWPQONDD664856 |         18000 |         20000 | used     | 2011 | Dodge      | Caravan          | 2WD                             |   20000 | Red                              | 2011-03-11
+   6 | NDJEUWOQKAL109876 |          2000 |          4000 | used     | 2007 | Chevrolet  | Malibu           | Eco 4DR Sedan                   |   98000 | Blue                             | 2008-09-17
+   7 | TYYLOQKWYDH679348 |          9000 |         13000 | new      | 2011 | Kia        | Optima           | MS                              |       0 | White                            | 2010-12-03
+   8 | NJKUJDYEHAL134578 |         15000 |         18000 | new      | 2012 | Nissan     | Altima           | 2WD                             |       0 | Grey                             | 2011-11-12
+   9 | 2HGFB2F86CH530973 |         19775 |         22775 | new      | 2012 | Honda      | Civic Sdn        | EX                              |       1 | Polished Metal Metallic          | 2011-10-25   
+
+
+------------------------------------------------------------------------------------------------------
+
+This will try to create a new sale. An id is not given so it is assumed to be created automatically.
+We noticed an issue with Postgres as shown by the error below.
+
+At this point we had already imported multiple rows into sales table, manually specifying ids, 
+but Postgre's does not keep track of what the next auto increment value should be if a row is manually inserted with an id.
+
+Instead, after instering those rows, it is necessary to run the command ALTER SEQUENCE vehicle_id_seq RESTART 1000;
+The last number (1000) being what value to start incrememnting at for the next insert statement.
+1000 was chosen as an example but it is possible to just select the MAX id value, incrememnt that by 1, and use that values as the new auto incrememnt value.
+
+INSERT INTO sales (customer_id,employee_id,vehicle_id,tax,fee,price,date) VALUES(5,3,120,500,350,24000,'2012-10-09");
+
+ERROR:  duplicate key value violates unique constraint "sales_pkey"
+DETAIL:  Key (id)=(1) already exists.
+
+------------------------------------------------------------------------------------------------------
+
+This updates all customers with the first name 'Matt' and renames them to 'TEST_NAME'
+
+UPDATE customer SET first_name='TEST_NAME' WHERE first_name='Matt';
+
+UPDATE 1
+
+BEFORE:
+ id | first_name  | last_name | gender |    dob     |      address      |   city    | state |  zip
+----+-------------+-----------+--------+------------+-------------------+-----------+-------+-------
+  1 | William     | Hartnell  | M      | 1980-04-18 | 1 Hope Lane       | Rochester | NY    | 14623
+  2 | Patrick     | Troughton | M      | 1972-01-09 | 99 Easy Street    | Webster   | NY    | 14580
+  3 | Jon         | Pertwee   | M      | 1990-07-12 | 5 Main Street     | Oakland   | NY    | 14963
+  4 | Tom         | Baker     | M      | 1991-11-03 | 39 Fox Run        | Syracuse  | NY    | 13201
+  5 | Peter       | Davison   | M      | 1986-07-21 | 228 Loden Lane    | Belgrade  | NY    | 11320
+  6 | Colin       | Baker     | M      | 1981-02-19 | 790 James Road    | Buffalo   | NY    | 20931
+  7 | Sylvester   | McCoy     | M      | 1960-01-10 | 34 Culliver Drive | Rochester | NY    | 14623
+  8 | Paul        | McGann    | M      | 1971-09-27 | 15 Rome Avenue    | Rochester | NY    | 14623
+  9 | Christopher | Eccleston | M      | 1990-01-02 | 5 Main Street     | Rochester | NY    | 14623
+ 10 | David       | Tennant   | M      | 1980-08-08 | 12 Ridge Road     | Rochester | NY    | 14623
+ 11 | Matt        | Smith     | M      | 1970-07-07 | 99 Jefferson Road | Rochester | NY    | 14623
+(11 rows)
+
+AFTER:
+ id | first_name  | last_name | gender |    dob     |      address      |   city    | state |  zip
+----+-------------+-----------+--------+------------+-------------------+-----------+-------+-------
+  1 | William     | Hartnell  | M      | 1980-04-18 | 1 Hope Lane       | Rochester | NY    | 14623
+  2 | Patrick     | Troughton | M      | 1972-01-09 | 99 Easy Street    | Webster   | NY    | 14580
+  3 | Jon         | Pertwee   | M      | 1990-07-12 | 5 Main Street     | Oakland   | NY    | 14963
+  4 | Tom         | Baker     | M      | 1991-11-03 | 39 Fox Run        | Syracuse  | NY    | 13201
+  5 | Peter       | Davison   | M      | 1986-07-21 | 228 Loden Lane    | Belgrade  | NY    | 11320
+  6 | Colin       | Baker     | M      | 1981-02-19 | 790 James Road    | Buffalo   | NY    | 20931
+  7 | Sylvester   | McCoy     | M      | 1960-01-10 | 34 Culliver Drive | Rochester | NY    | 14623
+  8 | Paul        | McGann    | M      | 1971-09-27 | 15 Rome Avenue    | Rochester | NY    | 14623
+  9 | Christopher | Eccleston | M      | 1990-01-02 | 5 Main Street     | Rochester | NY    | 14623
+ 10 | David       | Tennant   | M      | 1980-08-08 | 12 Ridge Road     | Rochester | NY    | 14623
+ 11 | TEST_NAME   | Smith     | M      | 1970-07-07 | 99 Jefferson Road | Rochester | NY    | 14623
+(11 rows)
+
+
+------------------------------------------------------------------------------------------------------
+
+After changing the auto increment value in the previous example, the same query is tried again and this time it actually inserts.
+
+INSERT INTO sales (customer_id,employee_id,vehicle_id,tax,fee,price,date) VALUES(5,3,120,500,350,24000,'2012-10-09');
+
+INSERT 0 1
+
+BEFORE:
+ id | customer_id | employee_id | vehicle_id | tax  | fee | price |    date
+----+-------------+-------------+------------+------+-----+-------+------------
+  1 |           2 |           7 |         13 | 1000 |   0 | 20000 | 2012-10-01
+  2 |           5 |           6 |         64 |  800 | 200 | 15000 | 2012-10-05
+  3 |           6 |           4 |         45 |  700 | 600 | 13000 | 2012-10-05
+  4 |           7 |           1 |         91 | 1200 | 100 | 25000 | 2012-10-07
+  5 |          11 |           8 |        312 |  600 | 300 | 31000 | 2012-10-09
+  6 |           9 |           7 |        322 |  500 | 350 | 24000 | 2012-10-09
+(6 rows)
+
+AFTER:
+  id  | customer_id | employee_id | vehicle_id | tax  | fee | price |    date
+------+-------------+-------------+------------+------+-----+-------+------------
+    1 |           2 |           7 |         13 | 1000 |   0 | 20000 | 2012-10-01
+    2 |           5 |           6 |         64 |  800 | 200 | 15000 | 2012-10-05
+    3 |           6 |           4 |         45 |  700 | 600 | 13000 | 2012-10-05
+    4 |           7 |           1 |         91 | 1200 | 100 | 25000 | 2012-10-07
+    5 |          11 |           8 |        312 |  600 | 300 | 31000 | 2012-10-09
+    6 |           9 |           7 |        322 |  500 | 350 | 24000 | 2012-10-09
+ 1000 |           5 |           3 |        120 |  500 | 350 | 24000 | 2012-10-09
+(7 rows)
+
+------------------------------------------------------------------------------------------------------
+
+Now we try to create a new sale with a customer id of 9999.
+No customer exists with id 9999 and due to the foreign key restraint, the insert fails.
+
+INSERT INTO sales (customer_id,employee_id,vehicle_id,tax,fee,price,date) VALUES(9999,3,120,500,350,24000,'2012-10-09');
+
+ERROR:  insert or update on table "sales" violates foreign key constraint "sales_customer_id_fkey"
+DETAIL:  Key (customer_id)=(9999) is not present in table "customer".
+
+------------------------------------------------------------------------------------------------------
+
+This selects all of the employees that have made more than 1 sale.
+It also renames the total count of sales as num_sales.
+
+SELECT employee.first_name,employee.last_name,COUNT(sales.id) AS num_sales FROM sales,employee WHERE sales.employee_id=employee.id GROUP BY employee.id HAVING COUNT(sales.id)>1 ORDER BY num_sales;
+
+ first_name | last_name | num_sales
+------------+-----------+-----------
+ Bob        | Grand     |         2
+ Nancy      | Bond      |         2
+(2 rows)
+
+------------------------------------------------------------------------------------------------------
+
+This selects all of the employees and the number of sales that they have made, even if they have no sales.
+It orders by most number of sales to least number of sales and also renames the total count of sales as num_sales;
+
+SELECT employee.first_name,employee.last_name,COUNT(sales.id) AS num_sales FROM employee LEFT OUTER JOIN sales ON sales.employee_id=employee.id GROUP BY employee.id ORDER BY num_sales DESC;
+
+ first_name | last_name | num_sales
+------------+-----------+-----------
+ Nancy      | Bond      |         2
+ Bob        | Grand     |         2
+ Kate       | Row       |         1
+ Nick       | Owens     |         1
+ Jim        | Friendly  |         1
+ David      | Smith     |         1
+ Brian      | Stream    |         0
+ Catherine  | Friendly  |         0
+(8 rows)
+
+------------------------------------------------------------------------------------------------------
+
+This selects the most expensive vehicle in the database.
+It also uses a subquery.
+
+SELECT * FROM vehicle WHERE sticker_price=(SELECT MAX(sticker_price) FROM vehicle);
+
+ id  |        vin        | invoice_price | sticker_price | new_used | year |   make    | model |    trim    | mileage | color | date_in_stock
+-----+-------------------+---------------+---------------+----------+------+-----------+-------+------------+---------+-------+---------------
+ 229 | 1GNSKCE07CR318301 |         54921 |         60380 | new      | 2012 | Chevrolet | Tahoe | LTZ V8 4WD |       9 | Black | 2012-06-04
+(1 row)
+
+------------------------------------------------------------------------------------------------------
+
+This selects the oldest vehicle in the database.
+It also uses a subquery.
+
+SELECT * FROM vehicle WHERE date_in_stock=(SELECT MIN(date_in_stock) FROM vehicle);
+
+ id |        vin        | invoice_price | sticker_price | new_used | year |   make    | model  |     trim      | mileage | color | date_in_stock
+----+-------------------+---------------+---------------+----------+------+-----------+--------+---------------+---------+-------+---------------
+  6 | NDJEUWOQKAL109876 |          2000 |          4000 | used     | 2007 | Chevrolet | Malibu | Eco 4DR Sedan |   98000 | Blue  | 2008-09-17
+(1 row)
+
+------------------------------------------------------------------------------------------------------
+
+This selects all employees who are also customers by using an intersection.
+
+SELECT first_name,last_name FROM customer INTERSECT SELECT first_name,last_name FROM employee;
+
+ first_name  | last_name
+-------------+-----------
+ Christopher | Eccleston
+ David       | Tennant
+ Matt        | Smith
+(3 rows)
+
+------------------------------------------------------------------------------------------------------
+
+This selects all employees who are also customers by using an EXISTS statement.
+
+SELECT first_name,last_name FROM customer WHERE EXISTS(SELECT * FROM employee WHERE customer.first_name = employee.first_name AND customer.last_name=employee.last_name);
+
+ first_name  | last_name
+-------------+-----------
+ Christopher | Eccleston
+ David       | Tennant
+ Matt        | Smith
+(3 rows)
+
+------------------------------------------------------------------------------------------------------
+
+This selects all vehicles that have a color with the word "Blue" in the name.
+
+SELECT make,model,color FROM vehicle WHERE color LIKE '%Blue%';
+
+    make    |      model       |             color
+------------+------------------+--------------------------------
+ Chevrolet  | Malibu           | Blue
+ Honda      | Insight          | Mediterranean Blue Pearl
+ Honda      | Odyssey          | Celestial Blue Metallic
+ Honda      | CR-V             | Twilight Blue Metallic
+ Honda      | CR-V             | Twilight Blue Metallic
+ Honda      | Pilot            | Obsidian Blue Pearl
+ Honda      | Civic Sdn        | Atomic Blue Metallic
+ Honda      | CR-V             | Glacier Blue Metallic
+ Honda      | Accord Sdn       | Royal Blue Pearl
+ Honda      | CR-V             | Royal Blue Pearl
+ Volkswagen | Jetta Sedan      | Blue Graphite Metallic
+ Honda      | Accord Sdn       | Royal Blue Pearl
+ Honda      | CR-V             | Royal Blue Pearl
+ Pontiac    | G8               | Stryker Blue Metallic
+ Honda      | CR-V             | Glacier Blue Metallic
+ Honda      | CR-V             | Glacier Blue Metallic
+ Chevrolet  | Silverado 1500   | Imperial Blue
+ Chevrolet  | Cruze            | Blue Topaz
+ Chevrolet  | Cruze            | Blue Topaz
+ Hyundai    | Sonata           | Blue
+ Toyota     | Corolla          | Nautical Blue Metallic
+ Chevrolet  | Impala           | Imperial Blue Metallic
+ Chevrolet  | Silverado 1500   | Imperial Blue
+ Chevrolet  | Silverado 2500HD | Blue Granite Metallic
+ GMC        | Acadia           | Dark Blue Metallic
+ Saturn     | VUE              | Pacific Blue
+ Kia        | Sedona           | Glacier Blue
+ GMC        | Sierra 1500      | Heritage Blue
+ Subaru     | Forester         | Newport Blue Pearl
+ Chevrolet  | Impala           | Imperial Blue Metallic
+ Chevrolet  | Malibu           | Atlantis Blue
+ Chevrolet  | Silverado 1500   | Blue Granite
+ Chevrolet  | Malibu           | Atlantis Blue
+ Kia        | Forte Koup       | Corsa Blue
+ Chevrolet  | Cruze            | Bluetopaz
+ Mercury    | Grand Marquis    | Norsea Blue Clearcoat Metallic
+ Chevrolet  | Silverado 1500   | Blue Granite Metallic
+(37 rows)
+
+------------------------------------------------------------------------------------------------------
+
+This selects all employees who have an address which is NULL;
+Nothing is returned because every employee has an address.
+
+SELECT * FROM employee WHERE address IS NULL;
+
+ id | first_name | last_name | gender | dob | address | city | state | zip | position
+----+------------+-----------+--------+-----+---------+------+-------+-----+----------
+(0 rows)
+
+------------------------------------------------------------------------------------------------------
+
+This selects all cusomers who have an address which is NOT NULL;
+
+SELECT * FROM customer WHERE address IS NOT NULL;
+
+ id | first_name  | last_name | gender |    dob     |      address      |   city    | state |  zip
+----+-------------+-----------+--------+------------+-------------------+-----------+-------+-------
+  1 | William     | Hartnell  | M      | 1980-04-18 | 1 Hope Lane       | Rochester | NY    | 14623
+  2 | Patrick     | Troughton | M      | 1972-01-09 | 99 Easy Street    | Webster   | NY    | 14580
+  3 | Jon         | Pertwee   | M      | 1990-07-12 | 5 Main Street     | Oakland   | NY    | 14963
+  4 | Tom         | Baker     | M      | 1991-11-03 | 39 Fox Run        | Syracuse  | NY    | 13201
+  5 | Peter       | Davison   | M      | 1986-07-21 | 228 Loden Lane    | Belgrade  | NY    | 11320
+  6 | Colin       | Baker     | M      | 1981-02-19 | 790 James Road    | Buffalo   | NY    | 20931
+  7 | Sylvester   | McCoy     | M      | 1960-01-10 | 34 Culliver Drive | Rochester | NY    | 14623
+  8 | Paul        | McGann    | M      | 1971-09-27 | 15 Rome Avenue    | Rochester | NY    | 14623
+  9 | Christopher | Eccleston | M      | 1990-01-02 | 5 Main Street     | Rochester | NY    | 14623
+ 10 | David       | Tennant   | M      | 1980-08-08 | 12 Ridge Road     | Rochester | NY    | 14623
+ 11 | Matt        | Smith     | M      | 1970-07-07 | 99 Jefferson Road | Rochester | NY    | 14623
+(11 rows)
+
+------------------------------------------------------------------------------------------------------
+
+A view was created:
+
+CREATE VIEW saleView AS SELECT sales.id,sales.tax,sales.fee,sales.price,sales.date,vehicle.vin,customer.first_name AS cust_first_name,customer.last_name AS cust_last_name,employee.first_name AS emp_first_name,employee.last_name AS emp_last_name FROM sales,vehicle,customer,employee WHERE sales.vehicle_id=vehicle.id AND sales.customer_id=customer.id AND sales.employee_id=employee.id;
+
+And by calling the query below, all of the sales data is displayed.
+
+SELECT * FROM saleView;
+
+ id | tax  | fee | price |    date    |        vin        | cust_first_name | cust_last_name | emp_first_name | emp_last_name
+----+------+-----+-------+------------+-------------------+-----------------+----------------+----------------+---------------
+  1 | 1000 |   0 | 20000 | 2012-10-01 | 19XFB2F90CE364694 | Patrick         | Troughton      | Nancy          | Bond
+  2 |  800 | 200 | 15000 | 2012-10-05 | 2HKRM4H72DH601911 | Peter           | Davison        | David          | Smith
+  3 |  700 | 600 | 13000 | 2012-10-05 | 1HGCR2F58DA005756 | Colin           | Baker          | Kate           | Row
+  4 | 1200 | 100 | 25000 | 2012-10-07 | 5FNRL5H69DB007069 | Sylvester       | McCoy          | Jim            | Friendly
+  5 |  600 | 300 | 31000 | 2012-10-09 | 1GCSKSE33AZ161196 | Matt            | Smith          | Nick           | Owens
+  6 |  500 | 350 | 24000 | 2012-10-09 | 5GZCZ63486S818771 | Christopher     | Eccleston      | Nancy          | Bond
+(6 rows)
+
+------------------------------------------------------------------------------------------------------
+
+This is a stored procedure which inserts a sale.
+
+CREATE OR REPLACE FUNCTION insert_sale(integer,integer,integer,integer,integer,integer,date) 
+RETURNS void AS $delimiter$
+INSERT INTO sales (customer_id,employee_id,vehicle_id,tax,fee,price,date) VALUES($1, $2, $3, $4, $5, $6, $7)
+$delimiter$
+LANGUAGE SQL;
+
+
+This is the query to run to insert a sale.
+
+SELECT insert_sale(5,3,120,500,350,24000,'2012-10-09');
+
+ insert_sale
+-------------
+
+(1 row)
+
+BEFORE:
+  id  | customer_id | employee_id | vehicle_id | tax  | fee | price |    date
+------+-------------+-------------+------------+------+-----+-------+------------
+    1 |           2 |           7 |         13 | 1000 |   0 | 20000 | 2012-10-01
+    2 |           5 |           6 |         64 |  800 | 200 | 15000 | 2012-10-05
+    3 |           6 |           4 |         45 |  700 | 600 | 13000 | 2012-10-05
+    4 |           7 |           1 |         91 | 1200 | 100 | 25000 | 2012-10-07
+    5 |          11 |           8 |        312 |  600 | 300 | 31000 | 2012-10-09
+    6 |           9 |           7 |        322 |  500 | 350 | 24000 | 2012-10-09
+(6 rows)
+
+AFTER:
+  id  | customer_id | employee_id | vehicle_id | tax  | fee | price |    date
+------+-------------+-------------+------------+------+-----+-------+------------
+    1 |           2 |           7 |         13 | 1000 |   0 | 20000 | 2012-10-01
+    2 |           5 |           6 |         64 |  800 | 200 | 15000 | 2012-10-05
+    3 |           6 |           4 |         45 |  700 | 600 | 13000 | 2012-10-05
+    4 |           7 |           1 |         91 | 1200 | 100 | 25000 | 2012-10-07
+    5 |          11 |           8 |        312 |  600 | 300 | 31000 | 2012-10-09
+    6 |           9 |           7 |        322 |  500 | 350 | 24000 | 2012-10-09
+ 1000 |           5 |           3 |        120 |  500 | 350 | 24000 | 2012-10-09
+(7 rows)
+
+
+------------------------------------------------------------------------------------------------------
+
+This is a stored procedure that checks if a customer's first name is John, if it is, then throw an error.
+
+CREATE OR REPLACE FUNCTION insert_customer() RETURNS trigger AS $insert_customer$
+BEGIN
+
+  IF NEW.first_name='John' THEN RAISE EXCEPTION 'first name cannot be John';
+  END IF;
+
+  RETURN NEW;
+END;
+$insert_customer$ LANGUAGE plpgsql;
+
+
+The stored procedure above is triggeredwhenever a customer is updated or inserted.
+
+CREATE TRIGGER insert_customer BEFORE INSERT OR UPDATE ON customer
+FOR EACH ROW EXECUTE PROCEDURE insert_customer();
+
+
+When running this insert query, an error is thrown.
+
+INSERT INTO customer (first_name,last_name,gender,dob,address,city,state,zip) VALUES('John','Smith','M','1980-01-01','123 state street','rochester','ny',14612);
+
+ERROR:  first name cannot be John
+
+

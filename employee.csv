@@ -7,3 +7,6 @@ id,first_name,last_name,gender,dob,address,city,state,zip,position
 6,David,Smith,M,12/25/1985,1 Small Street,Buffalo,NY,20931,Sales
 7,Nancy,Bond,F,3/2/1988,5 East Road,Rochester,NY,14623,Sales
 8,Nick,Owens,M,6/6/1970,10 West Road,Rochester,NY,14623,Sales
+9,Christopher,Eccleston,M,1/2/1990,5 Main Street,Rochester,NY,14623,Sales
+10,David,Tennant,M,8/8/1980,12 Ridge Road,Rochester,NY,14623,Sales
+11,Matt,Smith,M,7/7/1970,99 Jefferson Road,Rochester,NY,14623,Sales

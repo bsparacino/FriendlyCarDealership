@@ -35,8 +35,8 @@ public class Main {
 				if ( option == 1)
 				{
 					System.out.println("-------- Sales ------------\n");
-					/**ArrayList<Sales> sales = db.getSales();
-					Main.printSales(sales);**/
+					ArrayList<Sale> sales = db.getReportSales();
+					Main.printSales(sales);
 				} else if ( option == 2)
 				{
 					System.out.println("-------- Customers ------------\n");
@@ -86,16 +86,16 @@ public class Main {
 				{
 					System.out.println("-------- New Customer ------------\n");
 					String[] customer = Main.enterCustomer();
-					/**db.insertCustomer(customer[0], customer[1], customer[2],
-						customer[3], customer[4], customer[5], customer[6],
-						Integer.parseInt(customer[7]));**/
+					db.insertCustomer(customer[0], customer[1], customer[2], customer[3],
+						customer[4], customer[5], customer[6],
+						Integer.parseInt(customer[7]));
 				} else if ( option == 6 )
 				{	
 					System.out.println("-------- New Employee ------------\n");
 					String[] employee = Main.enterEmployee();
-					/**db.insertEmployee(customer[0], customer[1], customer[2],
-						customer[3], customer[4], customer[5], customer[6],
-						customer[7], Integer.parseInt(customer[8]));**/
+					db.insertEmployee(employee[0], employee[1], employee[2],
+						employee[3], employee[4], employee[5], employee[6],
+						Integer.parseInt(employee[7]), employee[8]);
 				} else if ( option == 7 )
 				{	
 
@@ -150,6 +150,9 @@ public class Main {
 		System.out.println("Enter last name:");
 		customer[1] = sc.nextLine();
 		
+		System.out.println("Enter gender (M or F):");
+		customer[2] = sc.nextLine();
+		
 		System.out.println("Enter date of birth (e.g. 1990-04-30:");
 		customer[3] = sc.nextLine();
 		
@@ -180,29 +183,32 @@ public class Main {
 		System.out.println("Enter last name:");
 		customer[1] = sc.nextLine();
 		
+		System.out.println("Enter Enter gender (M or F):");
+		customer[2] = sc.nextLine();
+		
 		System.out.println("Enter date of birth (e.g. 1990-04-30:");
 		customer[3] = sc.nextLine();
 		
-		System.out.println("Enter employee position:");
+		System.out.println("Enter address:");
 		customer[4] = sc.nextLine();
 		
-		System.out.println("Enter address:");
+		System.out.println("Enter city:");
 		customer[5] = sc.nextLine();
 		
-		System.out.println("Enter city:");
+		System.out.println("Enter state:");
 		customer[6] = sc.nextLine();
 		
-		System.out.println("Enter state:");
+		System.out.println("Enter zip code:");
 		customer[7] = sc.nextLine();
 		
-		System.out.println("Enter zip code:");
+		System.out.println("Enter employee position:");
 		customer[8] = sc.nextLine();
 		
 		return customer;
 	}
 	
 	private static void printCustomers(ArrayList<Customer> customers) {
-		System.out.println("id\tFirst Name\tLast Name\tSex\tDOB\tAddress\tCity\tState\tZip");
+		System.out.println("id\tFirst Name\tLast Name\tGender\tDOB\tAddress\tCity\tState\tZip");
 		
 		for( Customer c : customers )
 		{
@@ -220,7 +226,7 @@ public class Main {
 	}
 	
 	private static void printEmployees(ArrayList<Employee> employees) {
-		System.out.println("id\tFirst Name\tLast Name\tDOB\tPosition\tAddress\tCity\tState\tZip");
+		System.out.println("id\tFirst Name\tLast Name\tGender\tDOB\tPosition\tAddress\tCity\tState\tZip");
 		
 		for( Employee e : employees )
 		{

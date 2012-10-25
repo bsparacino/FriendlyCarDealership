@@ -18,7 +18,8 @@ public class Customer
 		this.gender = gender;
 		this.dob = dob;
 		this.address = address;
-		this.city = state;
+		this.city = city;
+		this.state = state;
 		this.zip = zip;
 	}
 	

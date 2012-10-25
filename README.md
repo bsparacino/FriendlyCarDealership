@@ -8,3 +8,5 @@ psql -U p48501e p48501e
 
 list all tables
 \dt
+
+FriendlyGroup5Cars
