@@ -77,9 +77,9 @@ CREATE TABLE IF NOT EXISTS option (
 DROP TABLE IF EXISTS sales;
 CREATE TABLE IF NOT EXISTS sales (
   id SERIAL,
-  customer_id int NOT NULL,
-  employee_id int NOT NULL,
-  vehicle_id int NOT NULL,
+  customer_id int references customer(id),
+  employee_id int references employee(id),
+  vehicle_id int references vehicle(id),
   tax int NOT NULL,
   fee int NOT NULL,
   price int NOT NULL,

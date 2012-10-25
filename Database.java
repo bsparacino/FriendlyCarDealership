@@ -91,9 +91,9 @@ public class Database
 	{
 		try
 		{
-			Statement stmt = connection.createStatement();
-			stmt.execute("TRUNCATE TABLE "+tableName);
-			stmt.close();
+			//Statement stmt = connection.createStatement();
+			//stmt.execute("TRUNCATE TABLE "+tableName);
+			//stmt.close();
 
 			CopyManager copyManager = new CopyManager((BaseConnection) connection);
 			FileReader fileReader = new FileReader("//home/group/s485/p485-01e/cars/"+tableName+".csv");
@@ -104,6 +104,14 @@ public class Database
 
 	public void reloadAllData()
 	{
+		try
+		{
+			Statement stmt = connection.createStatement();
+			stmt.execute("TRUNCATE TABLE sales, vehicle, customer, employee, option");
+			stmt.close();
+
+		} catch (Exception e) { e.printStackTrace(); }
+		
 		this.loadData("vehicle");
 		this.loadData("customer");
 		this.loadData("employee");
